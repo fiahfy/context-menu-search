@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import SearchEngineDialog from './SearchEngineDialog'
 import SearchEngineTable from './SearchEngineTable'
 
@@ -59,9 +59,6 @@ export default {
       }
     }
   },
-  async mounted() {
-    await this.$store.dispatch('initialize')
-  },
   methods: {
     onAddClick() {
       this.dialog = true
@@ -69,7 +66,6 @@ export default {
     onOKClick() {
       window.close()
     },
-    ...mapActions(['initialize']),
     ...mapMutations('settings', ['addSearchEngine'])
   }
 }

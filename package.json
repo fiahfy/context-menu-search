@@ -1,7 +1,7 @@
 {
   "name": "context-menu-search",
-  "description": "Append Extended Controls for Video on YouTube",
-  "version": "0.0.3",
+  "description": "Custom Search on Context Menu",
+  "version": "0.0.1",
   "author": {
     "name": "fiahfy",
     "email": "d.fiahfy@gmail.com",
@@ -37,9 +37,12 @@
   },
   "keywords": [
     "chrome extension",
+    "vue",
+    "vuetify",
     "webpack"
   ],
   "private": true,
+  "productName": "Context Menu Search",
   "repository": {
     "type": "git",
     "url": "https://github.com/fiahfy/context-menu-search"
