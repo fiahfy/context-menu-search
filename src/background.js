@@ -25,7 +25,6 @@ const updateContextMenus = async () => {
 
   const { searchEngines } = await getSettings()
   for (let engine of searchEngines) {
-    console.log(engine.name)
     await browser.contextMenus.create({
       title: `Search "%s" with ${engine.name}`,
       contexts: ['selection'],
