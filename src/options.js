@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import App from './components/App'
+import OptionsPage from './components/OptionsPage'
 import store from './store'
 
 Vue.use(Vuetify)
@@ -8,6 +8,6 @@ Vue.use(Vuetify)
 new Vue({
   el: '#app',
   store,
-  components: { App },
-  template: '<App />'
+  components: { OptionsPage },
+  template: '<OptionsPage />'
 })

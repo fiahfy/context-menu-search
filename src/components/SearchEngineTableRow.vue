@@ -77,7 +77,7 @@ export default {
     onDeleteClick() {
       this.removeSearchEngine({ id: this.item.id })
     },
-    ...mapMutations('settings', ['setSearchEngine', 'removeSearchEngine'])
+    ...mapMutations(['setSearchEngine', 'removeSearchEngine'])
   }
 }
 </script>

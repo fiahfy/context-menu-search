@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('settings', ['searchEngines'])
+    ...mapState(['searchEngines'])
   },
   watch: {
     dialog(value) {
@@ -69,7 +69,7 @@ export default {
     onOKClick() {
       window.close()
     },
-    ...mapMutations('settings', ['addSearchEngine'])
+    ...mapMutations(['addSearchEngine'])
   }
 }
 </script>
