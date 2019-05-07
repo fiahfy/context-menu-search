@@ -1,11 +1,11 @@
 # Context Menu Search
 [![Build Status](https://travis-ci.com/fiahfy/context-menu-search.svg?branch=master)](https://travis-ci.com/fiahfy/context-menu-search)
 
-> Chrome Extension for Extended Controls on YouTube Videos.
+> Chrome Extension for Custom Search on Context Menu.
 
 
 ## Features
-* Append buttons for seeking backward/forward 5 seconds.
+* Add custom search engines on context menu.
 
 
 ## Screenshots

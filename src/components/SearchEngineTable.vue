@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('settings', ['searchEngines'])
+    ...mapState(['searchEngines'])
   }
 }
 </script>

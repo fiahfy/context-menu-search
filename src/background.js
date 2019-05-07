@@ -1,49 +1,52 @@
-import { defaults } from './store/settings'
-import logger from './utils/logger'
-import storage from './utils/storage'
+import browser from 'webextension-polyfill'
 import './assets/icon16.png'
 import './assets/icon48.png'
 import './assets/icon128.png'
 
-const updateContextMenu = async () => {
-  const state = await storage.get()
-  const { settings } = state
-  chrome.contextMenus.removeAll(() => {
-    for (let engine of settings.searchEngines) {
-      chrome.contextMenus.create({
-        title: `Search "%s" with ${engine.name}`,
-        contexts: ['selection'],
-        onclick: (info) => {
-          const url = engine.url.replace('%s', encodeURIComponent(info.selectionText))
-          chrome.tabs.create({ url })
-        }
-      })
-    }
+const getSettings = () => {
+  return new Promise((resolve) => {
+    // remove module cache
+    delete require.cache['./store/index.js']
+    const store = require('./store').default
+    // wait for async storage restore
+    // @see https://github.com/championswimmer/vuex-persist/issues/15
+    const timeout = Date.now() + 1000
+    const timer = setInterval(() => {
+      if (store.state.restore || Date.now() > timeout) {
+        clearInterval(timer)
+        resolve(store.state)
+      }
+    }, 100)
   })
 }
 
-chrome.runtime.onInstalled.addListener(async (details) => {
-  logger.log('chrome.runtime.onInstalled', details)
+const updateContextMenus = async () => {
+  await browser.contextMenus.removeAll()
 
-  const state = await storage.get()
-  const newState = {
-    settings: defaults,
-    ...state
+  const { searchEngines } = await getSettings()
+  for (let engine of searchEngines) {
+    await browser.contextMenus.create({
+      title: `Search ${engine.name} for "%s"`,
+      contexts: ['selection'],
+      onclick: (info) => {
+        const url = engine.url.replace(
+          '%s',
+          encodeURIComponent(info.selectionText)
+        )
+        browser.tabs.create({ url })
+      }
+    })
   }
-  await storage.set(newState)
-})
+}
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  logger.log('chrome.runtime.onMessage', message, sender, sendResponse)
-
+browser.runtime.onMessage.addListener(async (message) => {
   const { id } = message
+
   switch (id) {
-    case 'stateChanged':
-      updateContextMenu()
+    case 'settingsChanged':
+      await updateContextMenus()
       break
   }
 })
 
-updateContextMenu()
-
-logger.log('background script loaded')
+updateContextMenus()

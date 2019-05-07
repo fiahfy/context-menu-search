@@ -19,7 +19,7 @@
           >
             OK
           </v-btn>
-          <search-engine-dialog v-model="dialog" :item.sync="form" />
+          <search-engine-dialog v-model="dialog" :inputs.sync="form" />
         </v-card>
       </v-container>
     </v-content>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import SearchEngineDialog from './SearchEngineDialog'
 import SearchEngineTable from './SearchEngineTable'
 
@@ -39,16 +39,19 @@ export default {
   data() {
     return {
       dialog: false,
-      form: {}
+      form: {
+        name: '',
+        url: ''
+      }
     }
   },
   computed: {
-    ...mapState('settings', ['searchEngines'])
+    ...mapState(['searchEngines'])
   },
   watch: {
     dialog(value) {
       if (!value && this.form) {
-        this.addSearchEngine({ searchEngine: { ...this.form } })
+        this.addSearchEngine({ searchEngine: this.form })
       }
     },
     searchEngines(value, oldValue) {
@@ -59,9 +62,6 @@ export default {
       }
     }
   },
-  async mounted() {
-    await this.$store.dispatch('initialize')
-  },
   methods: {
     onAddClick() {
       this.dialog = true
@@ -69,8 +69,7 @@ export default {
     onOKClick() {
       window.close()
     },
-    ...mapActions(['initialize']),
-    ...mapMutations('settings', ['addSearchEngine'])
+    ...mapMutations(['addSearchEngine'])
   }
 }
 </script>

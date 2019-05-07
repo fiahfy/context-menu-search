@@ -12,7 +12,7 @@
     </td>
     <search-engine-dialog
       v-model="dialog"
-      :item.sync="form"
+      :inputs.sync="form"
       title="Edit Search Engine"
     />
   </tr>
@@ -35,7 +35,10 @@ export default {
   data() {
     return {
       dialog: false,
-      form: {}
+      form: {
+        name: '',
+        url: ''
+      }
     }
   },
   computed: {
@@ -61,20 +64,20 @@ export default {
       if (!value && this.form) {
         this.setSearchEngine({
           id: this.item.id,
-          searchEngine: { ...this.form }
+          searchEngine: this.form
         })
       }
     }
   },
   methods: {
     onEditClick() {
-      this.form = { ...this.item }
+      this.form = this.item
       this.dialog = true
     },
     onDeleteClick() {
       this.removeSearchEngine({ id: this.item.id })
     },
-    ...mapMutations('settings', ['setSearchEngine', 'removeSearchEngine'])
+    ...mapMutations(['setSearchEngine', 'removeSearchEngine'])
   }
 }
 </script>

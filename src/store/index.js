@@ -1,33 +1,69 @@
+import browser from 'webextension-polyfill'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import storage from '~/utils/storage'
-import settings, { defaults } from './settings'
+import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  actions: {
-    async initialize({ commit }) {
-      const state = await storage.get()
-      commit('setSettings', { settings: state.settings })
-    },
-    reset({ commit }) {
-      commit('setSettings', { settings: { ...defaults } })
+const vuexPersist = new VuexPersistence({
+  storage: browser.storage.local,
+  asyncStorage: true,
+  restoreState: async (key, storage) => {
+    const result = await storage.get(key)
+    return {
+      ...result[key],
+      restore: true
     }
+  },
+  saveState: async (key, state, storage) => {
+    await storage.set({ [key]: state })
+  }
+})
+
+const defaultState = {
+  searchEngines: []
+}
+
+export default new Vuex.Store({
+  state: {
+    ...defaultState
   },
   mutations: {
-    setSettings(state, { settings }) {
-      state.settings = settings
+    addSearchEngine(state, { searchEngine }) {
+      const id =
+        Math.max.apply(null, [
+          0,
+          ...state.searchEngines.map((item) => item.id)
+        ]) + 1
+
+      state.searchEngines = [
+        ...state.searchEngines,
+        {
+          id: id + 1,
+          ...searchEngine
+        }
+      ]
+    },
+    removeSearchEngine(state, { id }) {
+      state.searchEngines = state.searchEngines.filter((item) => item.id !== id)
+    },
+    setSearchEngine(state, { id, searchEngine }) {
+      state.searchEngines = state.searchEngines.map((item) => {
+        if (item.id !== id) {
+          return item
+        }
+        return {
+          ...item,
+          ...searchEngine
+        }
+      })
     }
   },
-  modules: {
-    settings
-  },
   plugins: [
+    vuexPersist.plugin,
     (store) => {
-      store.subscribe(async () => {
-        await storage.set(store.state)
-        chrome.runtime.sendMessage({ id: 'stateChanged' })
+      store.subscribe(() => {
+        browser.runtime.sendMessage({ id: 'settingsChanged' })
       })
     }
   ]
