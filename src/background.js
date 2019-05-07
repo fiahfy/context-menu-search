@@ -4,21 +4,20 @@ import './assets/icon48.png'
 import './assets/icon128.png'
 
 const getSettings = () => {
-  return new Promise((resolve) => {
-    console.log(1)
+  return new Promise(async (resolve) => {
+    // remove module cache
     delete require.cache['./store/index.js']
     const store = require('./store').default
-    console.log(2)
+    // wait for async storage restore
+    // @see https://github.com/championswimmer/vuex-persist/issues/15
     setTimeout(() => {
-      console.log(store, store.state)
       resolve(store.state.settings)
-    }, 1000)
+    })
   })
 }
 
 const updateContextMenu = async () => {
   const { searchEngines } = await getSettings()
-  console.log(searchEngines)
   chrome.contextMenus.removeAll(() => {
     for (let engine of searchEngines) {
       chrome.contextMenus.create({

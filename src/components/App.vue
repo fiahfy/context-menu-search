@@ -19,7 +19,7 @@
           >
             OK
           </v-btn>
-          <search-engine-dialog v-model="dialog" :item.sync="form" />
+          <search-engine-dialog v-model="dialog" :inputs.sync="form" />
         </v-card>
       </v-container>
     </v-content>
@@ -39,7 +39,10 @@ export default {
   data() {
     return {
       dialog: false,
-      form: {}
+      form: {
+        name: '',
+        url: ''
+      }
     }
   },
   computed: {
@@ -48,7 +51,7 @@ export default {
   watch: {
     dialog(value) {
       if (!value && this.form) {
-        this.addSearchEngine({ searchEngine: { ...this.form } })
+        this.addSearchEngine({ searchEngine: this.form })
       }
     },
     searchEngines(value, oldValue) {

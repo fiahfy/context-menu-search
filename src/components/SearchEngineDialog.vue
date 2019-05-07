@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="value" max-width="480" lazy>
+  <v-dialog v-model="dialog" max-width="480" lazy>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-card>
         <v-card-title primary-title>
@@ -40,7 +40,7 @@ export default {
       type: Boolean,
       required: true
     },
-    item: {
+    inputs: {
       type: Object,
       default: () => {}
     },
@@ -54,26 +54,34 @@ export default {
       urlformat: (v) =>
         (v || '').includes('%s') || 'Search word pattern (%s) not found',
       valid: false,
+      dialog: false,
       form: {}
     }
   },
   watch: {
     value(value) {
+      this.dialog = value
       if (value) {
-        this.form = { ...this.item }
+        this.form = { ...this.inputs }
       }
+    },
+    dialog(value) {
+      if (!value) {
+        this.$emit('update:inputs', null)
+      }
+      this.$emit('input', value)
     }
   },
   methods: {
     onCloseClick() {
-      this.$emit('update:item', null)
+      this.$emit('update:inputs', null)
       this.$emit('input', false)
     },
     onSaveClick() {
       if (!this.$refs.form.validate()) {
         return
       }
-      this.$emit('update:item', this.form)
+      this.$emit('update:inputs', { ...this.form })
       this.$emit('input', false)
     }
   }
