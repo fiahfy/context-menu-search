@@ -4,7 +4,7 @@ import './assets/icon48.png'
 import './assets/icon128.png'
 
 const getSettings = () => {
-  return new Promise(async (resolve) => {
+  return new Promise((resolve) => {
     // remove module cache
     delete require.cache['./store/index.js']
     const store = require('./store').default
