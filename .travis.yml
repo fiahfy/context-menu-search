@@ -12,11 +12,6 @@ script:
   - yarn test
   - yarn package
 
-before_deploy:
-  - git config --local user.name "$(npx -c 'echo "$npm_package_author_name"')"
-  - git config --local user.email "$(npx -c 'echo "$npm_package_author_email"')"
-  - git tag "v$(npx -c 'echo "$npm_package_version"')"
-
 deploy:
   provider: releases
   api_key: $GH_TOKEN
