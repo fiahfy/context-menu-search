@@ -12,7 +12,7 @@ const vuexPersist = new VuexPersistence({
     const result = await storage.get(key)
     return {
       ...result[key],
-      restore: true
+      __storageReady: true
     }
   },
   saveState: async (key, state, storage) => {
@@ -24,7 +24,7 @@ const defaultState = {
   searchEngines: []
 }
 
-export default new Vuex.Store({
+const config = {
   state: {
     ...defaultState
   },
@@ -67,4 +67,19 @@ export default new Vuex.Store({
       })
     }
   ]
-})
+}
+
+export default function createStore() {
+  return new Promise((resolve) => {
+    const store = new Vuex.Store(config)
+    // wait for async storage restore
+    // @see https://github.com/championswimmer/vuex-persist/issues/15
+    const timeout = Date.now() + 1000
+    const timer = setInterval(() => {
+      if (store.state.__storageReady || Date.now() > timeout) {
+        clearInterval(timer)
+        resolve(store)
+      }
+    }, 100)
+  })
+}

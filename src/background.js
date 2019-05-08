@@ -1,23 +1,12 @@
 import browser from 'webextension-polyfill'
+import createStore from './store'
 import './assets/icon16.png'
 import './assets/icon48.png'
 import './assets/icon128.png'
 
-const getSettings = () => {
-  return new Promise((resolve) => {
-    // remove module cache
-    delete require.cache['./store/index.js']
-    const store = require('./store').default
-    // wait for async storage restore
-    // @see https://github.com/championswimmer/vuex-persist/issues/15
-    const timeout = Date.now() + 1000
-    const timer = setInterval(() => {
-      if (store.state.restore || Date.now() > timeout) {
-        clearInterval(timer)
-        resolve(store.state)
-      }
-    }, 100)
-  })
+const getSettings = async () => {
+  const store = await createStore()
+  return store.state
 }
 
 const updateContextMenus = async () => {
