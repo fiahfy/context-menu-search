@@ -10,23 +10,31 @@ const vuexPersist = new VuexPersistence({
   asyncStorage: true,
   restoreState: async (key, storage) => {
     const result = await storage.get(key)
+    const json = result[key]
+
+    let state = {}
+    try {
+      state = JSON.parse(json)
+    } catch (e) {} // eslint-disable-line no-empty
+
     return {
-      ...result[key],
+      ...state,
       __storageReady: true
     }
   },
   saveState: async (key, state, storage) => {
-    await storage.set({ [key]: state })
+    const json = JSON.stringify(state)
+    await storage.set({ [key]: json })
   }
 })
 
-const defaultState = {
+const initialState = {
   searchEngines: []
 }
 
 const config = {
   state: {
-    ...defaultState
+    ...initialState
   },
   mutations: {
     addSearchEngine(state, { searchEngine }) {
@@ -69,9 +77,13 @@ const config = {
   ]
 }
 
-export default function createStore() {
+export default function createStore(waitStorageReady = false) {
   return new Promise((resolve) => {
     const store = new Vuex.Store(config)
+    if (!waitStorageReady) {
+      resolve(store)
+      return
+    }
     // wait for async storage restore
     // @see https://github.com/championswimmer/vuex-persist/issues/15
     const timeout = Date.now() + 1000

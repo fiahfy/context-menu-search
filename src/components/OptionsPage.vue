@@ -10,15 +10,6 @@
             </v-btn>
           </v-layout>
           <search-engine-table />
-          <v-btn
-            class="mt-3"
-            color="primary"
-            depressed
-            block
-            @click="onOKClick"
-          >
-            OK
-          </v-btn>
           <search-engine-dialog v-model="dialog" :inputs.sync="form" />
         </v-card>
       </v-container>
@@ -65,9 +56,6 @@ export default {
   methods: {
     onAddClick() {
       this.dialog = true
-    },
-    onOKClick() {
-      window.close()
     },
     ...mapMutations(['addSearchEngine'])
   }

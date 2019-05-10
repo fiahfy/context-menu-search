@@ -5,7 +5,7 @@ import './assets/icon48.png'
 import './assets/icon128.png'
 
 const getSettings = async () => {
-  const store = await createStore()
+  const store = await createStore(true)
   return store.state
 }
 
