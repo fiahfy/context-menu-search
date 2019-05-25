@@ -1,8 +1,6 @@
 import browser from 'webextension-polyfill'
 import createStore from './store'
-import './assets/icon16.png'
-import './assets/icon48.png'
-import './assets/icon128.png'
+import './assets/icon.png'
 
 const getSettings = async () => {
   const store = await createStore(true)
