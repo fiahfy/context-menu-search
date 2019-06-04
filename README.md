@@ -9,7 +9,7 @@
 
 
 ## Screenshots
-![screenshot](.github/img/screenshot.png?)
+![screenshot](.github/img/screenshot.png)
 
 
 ## Installation
