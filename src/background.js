@@ -4,7 +4,7 @@ import './assets/icon.png'
 
 const getSettings = async () => {
   const store = await createStore(true)
-  return store.state
+  return JSON.parse(JSON.stringify(store.state))
 }
 
 const updateContextMenus = async () => {
