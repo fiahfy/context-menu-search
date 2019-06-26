@@ -1,8 +1,11 @@
 <template>
-  <tr class="search-engine-table-header-row">
-    <th v-for="header in headers" :key="header.text" class="text-xs-left">
-      {{ header.text }}
-    </th>
+  <tr>
+    <th
+      v-for="header in headers"
+      :key="header.text"
+      class="text-xs-left"
+      v-text="header.text"
+    />
   </tr>
 </template>
 

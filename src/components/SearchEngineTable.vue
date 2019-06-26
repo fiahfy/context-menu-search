@@ -1,10 +1,5 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="searchEngines"
-    class="search-engine-table"
-    hide-actions
-  >
+  <v-data-table :headers="headers" :items="searchEngines" hide-actions>
     <search-engine-table-header-row
       slot="headers"
       slot-scope="props"

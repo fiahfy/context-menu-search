@@ -44,11 +44,15 @@ export default {
   computed: {
     nameClasses() {
       return {
+        name: true,
+        ellipsis: true,
         'grey--text': !this.item.name
       }
     },
     urlClasses() {
       return {
+        url: true,
+        ellipsis: true,
         'grey--text': !this.item.url
       }
     },
@@ -81,3 +85,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.name {
+  max-width: 128px;
+}
+.url {
+  max-width: 256px;
+}
+</style>

@@ -15,7 +15,7 @@
             />
             <v-text-field
               v-model="form.url"
-              :rules="[urlformat]"
+              :rules="urlRules"
               label="Query URL"
               placeholder="https://www.bing.com/search?q=%s"
               hint="%s=search word"
@@ -51,8 +51,9 @@ export default {
   },
   data() {
     return {
-      urlformat: (v) =>
-        (v || '').includes('%s') || 'Search word pattern (%s) not found',
+      urlRules: [
+        (v) => (v || '').includes('%s') || 'Search word pattern (%s) not found'
+      ],
       valid: false,
       dialog: false,
       form: {}
