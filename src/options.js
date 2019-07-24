@@ -10,6 +10,7 @@ createStore().then((store) => {
     el: '#app',
     store,
     components: { OptionsPage },
-    template: '<OptionsPage />'
+    template: '<OptionsPage />',
+    vuetify: new Vuetify()
   })
 })

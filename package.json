@@ -1,7 +1,7 @@
 {
   "name": "context-menu-search",
   "description": "Custom Search on Context Menu",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": {
     "name": "fiahfy",
     "email": "d.fiahfy@gmail.com",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "vue": "^2.5.16",
-    "vuetify": "^1.0.17",
+    "vuetify": "^2.0.0",
     "vuex": "^3.0.1",
     "vuex-persist": "^2.0.0",
     "webextension-polyfill": "^0.4.0"
@@ -29,7 +29,7 @@
     "eslint-plugin-vue": "^5.0.0-beta.4",
     "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^2.2.0",
+    "husky": "^3.0.1",
     "prettier": "^1.14.3",
     "vue-loader": "^15.0.5",
     "vue-template-compiler": "^2.5.16",
