@@ -3,12 +3,11 @@
     <v-content>
       <v-container class="pa-0" fluid>
         <v-card class="pa-3" flat>
-          <v-layout>
-            <v-spacer />
+          <div class="text-right">
             <v-btn color="primary" depressed @click="onAddClick">
               Add Search Engine
             </v-btn>
-          </v-layout>
+          </div>
           <search-engine-table />
           <search-engine-dialog v-model="dialog" :inputs.sync="form" />
         </v-card>
@@ -67,7 +66,7 @@ export default {
 </style>
 
 <style scoped>
-.application {
+.v-application {
   min-width: 512px;
   min-height: 512px;
 }

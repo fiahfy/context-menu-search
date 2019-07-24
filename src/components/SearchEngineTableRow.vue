@@ -2,13 +2,9 @@
   <tr class="search-engine-table-row">
     <td :class="nameClasses" v-text="name" />
     <td :class="urlClasses" v-text="url" />
-    <td class="justify-center layout px-0">
-      <v-btn icon class="mx-0" @click="onEditClick">
-        <v-icon color="teal">edit</v-icon>
-      </v-btn>
-      <v-btn icon class="mx-0" @click="onDeleteClick">
-        <v-icon color="pink">delete</v-icon>
-      </v-btn>
+    <td>
+      <v-icon class="mr-2" color="teal" @click="onEditClick">edit</v-icon>
+      <v-icon color="pink" @click="onDeleteClick">delete</v-icon>
     </td>
     <search-engine-dialog
       v-model="dialog"

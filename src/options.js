@@ -1,9 +1,7 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify'
+import vuetify from './plugins/vuetify'
 import OptionsPage from './components/OptionsPage'
 import createStore from './store'
-
-Vue.use(Vuetify)
 
 createStore().then((store) => {
   new Vue({
@@ -11,6 +9,6 @@ createStore().then((store) => {
     store,
     components: { OptionsPage },
     template: '<OptionsPage />',
-    vuetify: new Vuetify()
+    vuetify
   })
 })

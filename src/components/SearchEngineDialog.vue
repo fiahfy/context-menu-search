@@ -1,32 +1,36 @@
 <template>
-  <v-dialog v-model="dialog" max-width="480" lazy>
+  <v-dialog v-model="dialog" max-width="480">
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-card>
         <v-card-title primary-title>
           <span class="title" v-text="title" />
         </v-card-title>
         <v-card-text>
-          <v-layout column>
-            <v-text-field
-              v-model="form.name"
-              label="Name"
-              placeholder="Bing"
-              required
-            />
-            <v-text-field
-              v-model="form.url"
-              :rules="urlRules"
-              label="Query URL"
-              placeholder="https://www.bing.com/search?q=%s"
-              hint="%s=search word"
-              required
-            />
-          </v-layout>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="form.name"
+                label="Name"
+                placeholder="Bing"
+                required
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="form.url"
+                :rules="urlRules"
+                label="Query URL"
+                placeholder="https://www.bing.com/search?q=%s"
+                hint="%s=search word"
+                required
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click.native="onCloseClick">Cancel</v-btn>
-          <v-btn color="primary" flat @click.native="onSaveClick">Save</v-btn>
+          <v-btn text @click.native="onCloseClick">Cancel</v-btn>
+          <v-btn color="primary" text @click.native="onSaveClick">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-form>

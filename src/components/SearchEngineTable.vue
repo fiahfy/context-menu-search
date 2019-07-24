@@ -1,12 +1,12 @@
 <template>
-  <v-data-table :headers="headers" :items="searchEngines" hide-actions>
-    <search-engine-table-header-row
-      slot="headers"
-      slot-scope="props"
-      :headers="props.headers"
-    />
+  <v-data-table
+    :headers="headers"
+    :items="searchEngines"
+    hide-default-footer
+    :mobile-breakpoint="0"
+  >
     <search-engine-table-row
-      slot="items"
+      slot="item"
       :key="props.item.id"
       slot-scope="props"
       :item="props.item"
@@ -16,17 +16,19 @@
 
 <script>
 import { mapState } from 'vuex'
-import SearchEngineTableHeaderRow from './SearchEngineTableHeaderRow'
 import SearchEngineTableRow from './SearchEngineTableRow'
 
 export default {
   components: {
-    SearchEngineTableHeaderRow,
     SearchEngineTableRow
   },
   data() {
     return {
-      headers: [{ text: 'Name' }, { text: 'Query URL' }, { text: 'Actions' }]
+      headers: [
+        { text: 'Name', value: 'name' },
+        { text: 'Query URL', value: 'url' },
+        { text: 'Actions', sortable: false }
+      ]
     }
   },
   computed: {
