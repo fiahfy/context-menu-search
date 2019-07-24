@@ -29,7 +29,9 @@ const vuexPersist = new VuexPersistence({
 })
 
 const initialState = {
-  searchEngines: []
+  searchEngines: [
+    { id: 1, name: 'Bing', url: 'https://www.bing.com/search?q=%s' }
+  ]
 }
 
 const config = {

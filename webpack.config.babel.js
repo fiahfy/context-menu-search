@@ -15,7 +15,8 @@ export default {
   },
   output: {
     path: `${__dirname}/app/`,
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '../'
   },
   module: {
     rules: [
@@ -33,7 +34,7 @@ export default {
         use: ['vue-style-loader', 'css-loader']
       },
       {
-        test: /\.(jpg|gif|png|svg)$/,
+        test: /\.(jpg|gif|png|woff|woff2|eot|ttf)$/,
         loader: 'file-loader',
         options: {
           name: 'assets/[name].[ext]'
