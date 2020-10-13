@@ -1,88 +1,85 @@
 <template>
-  <tr class="search-engine-table-row">
+  <tr class="search-engine-table-row" :class="classes">
+    <td @click.stop>
+      <v-simple-checkbox
+        :value="isSelected"
+        :ripple="false"
+        @input="handleSelect"
+      />
+    </td>
     <td :class="nameClasses" v-text="name" />
     <td :class="urlClasses" v-text="url" />
-    <td>
-      <v-icon class="mr-2" color="teal" @click="onEditClick">edit</v-icon>
-      <v-icon color="pink" @click="onDeleteClick">delete</v-icon>
-    </td>
-    <search-engine-dialog
-      v-model="dialog"
-      :inputs.sync="form"
-      title="Edit Search Engine"
-    />
   </tr>
 </template>
 
-<script>
-import { mapMutations } from 'vuex'
-import SearchEngineDialog from './SearchEngineDialog'
+<script lang="ts">
+import { defineComponent, computed } from '@vue/composition-api'
+import { SearchEngine } from '~/models'
 
-export default {
-  components: {
-    SearchEngineDialog
-  },
+type Props = {
+  item: SearchEngine
+  isSelected: boolean
+  select: (v: boolean) => void
+}
+
+export default defineComponent({
   props: {
     item: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
+    isSelected: {
+      type: Boolean,
+      required: true,
+    },
+    select: {
+      type: Function,
+      required: true,
+    },
   },
-  data() {
-    return {
-      dialog: false,
-      form: {
-        name: '',
-        url: ''
-      }
-    }
-  },
-  computed: {
-    nameClasses() {
+  setup(props: Props) {
+    const classes = computed(() => {
+      return props.isSelected ? 'v-data-table__selected' : ''
+    })
+
+    const nameClasses = () => {
       return {
         name: true,
         ellipsis: true,
-        'grey--text': !this.item.name
+        'grey--text': !props.item.name,
       }
-    },
-    urlClasses() {
+    }
+    const urlClasses = () => {
       return {
         url: true,
         ellipsis: true,
-        'grey--text': !this.item.url
-      }
-    },
-    name() {
-      return this.item.name || 'Bing'
-    },
-    url() {
-      return this.item.url || 'https://www.bing.com/search?q=%s'
-    }
-  },
-  watch: {
-    dialog(value) {
-      if (!value && this.form) {
-        this.setSearchEngine({
-          id: this.item.id,
-          searchEngine: this.form
-        })
+        'grey--text': !props.item.url,
       }
     }
+    const name = () => {
+      return props.item.name || 'Bing'
+    }
+    const url = () => {
+      return props.item.url || 'https://www.bing.com/search?q=%s'
+    }
+
+    const handleSelect = (value: boolean) => {
+      props.select(value)
+    }
+
+    return {
+      classes,
+      nameClasses,
+      urlClasses,
+      name,
+      url,
+      handleSelect,
+    }
   },
-  methods: {
-    onEditClick() {
-      this.form = this.item
-      this.dialog = true
-    },
-    onDeleteClick() {
-      this.removeSearchEngine({ id: this.item.id })
-    },
-    ...mapMutations(['setSearchEngine', 'removeSearchEngine'])
-  }
-}
+})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .name {
   max-width: 128px;
 }
